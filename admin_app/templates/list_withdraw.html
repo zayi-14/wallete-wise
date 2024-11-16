@@ -1,0 +1,60 @@
+{% extends 'index.html' %}
+{% block body %}
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title text-center"><u>Withdrawals List</u></h3>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered zero-configuration">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Amount</th>
+                                        <th>Wallet Address</th>
+                                        <th>Network</th>
+                                        <th>Status</th>
+                                        <th>Created Time</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for withdrawal in withdrawals %}
+                                        <tr>
+                                            <td>{{ withdrawal.user.mobile }}</td>
+                                            <td>{{ withdrawal.amount }}</td>
+                                            <td>{{ withdrawal.wallet_address }}</td>
+                                            <td>{{ withdrawal.network.name }}</td>
+                                            <td><span class="label gradient-2 btn-rounded">{{ withdrawal.status }}</span></td>
+                                            <td>{{ withdrawal.created_time }}</td>
+                                            <td>
+                                                {% if withdrawal.status != 'failed' %}
+                                                    <a class="action-link" href="{% url 'admin_app:reject_withdrawal' withdrawal.id %}" data-toggle="tooltip" data-placement="top" title="Reject">
+                                                        <span class="label gradient-3 btn-rounded ml-4 mr-3">Reject</span>
+                                                    </a>
+                                                {% else %}
+                                                    
+                                                {% endif %}
+                                            
+                                                {% if withdrawal.status != 'completed' %}
+                                                    <a class="action-link" href="{% url 'admin_app:approve_withdrawal' withdrawal.id %}" data-toggle="tooltip" data-placement="top" title="Approve">
+                                                        <span class="label gradient-7 btn-rounded">Approve</span>
+                                                    </a>
+                                                {% else %}
+                                                    
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
